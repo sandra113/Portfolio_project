@@ -1,0 +1,103 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Header Styling */
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #4A90E2;
+  }
+  
+  /* Section Headings */
+  h2 {
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #4A90E2;
+    padding-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Resource List Styles */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: transform 0.2s ease;
+  }
+  
+  ul li:hover {
+    transform: scale(1.02);
+    background-color: #f0f0f0;
+  }
+  
+  /* Button Styles */
+  button {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #357ABD;
+  }
+  
+  /* Category Styles */
+  .category-faith {
+    border-left: 5px solid #4CAF50;
+  }
+  
+  .category-prayer {
+    border-left: 5px solid #FF9800;
+  }
+  
+  .category-worship {
+    border-left: 5px solid #9C27B0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      width: 95%;
+    }
+  
+    h1 {
+      font-size: 28px;
+    }
+  
+    h2 {
+      font-size: 22px;
+    }
+  
+    ul li {
+      padding: 10px;
+    }
+  }
+  
