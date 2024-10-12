@@ -1,25 +1,13 @@
 const mongoose = require('mongoose');
 
-const SermonSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  youtubeUrl: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+const sermonSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  youtubeUrl: { type: String, required: true },
+  thumbnailUrl: { type: String, required: true },
+  speaker: { type: String, required: true }, 
+  category: { type: String, required: true },
+}, { timestamps: true });
 
-module.exports = mongoose.model('Sermon', SermonSchema);
+const Sermon = mongoose.model('Sermon', sermonSchema);
+module.exports = Sermon;

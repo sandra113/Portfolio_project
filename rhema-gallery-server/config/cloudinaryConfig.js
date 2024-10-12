@@ -1,13 +1,16 @@
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
+require('dotenv').config(); // Load environment variables
 
+// Cloudinary configuration
 cloudinary.config({
-  cloud_name: 'YOUR_CLOUD_NAME',
-  api_key: 'YOUR_API_KEY',
-  api_secret: 'YOUR_API_SECRET',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Set up Cloudinary storage for multer
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -16,6 +19,8 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+// Create multer upload middleware
+const upload = multer({ storage });
 
-module.exports = { cloudinary, upload };
+// Export Cloudinary instance and upload middleware
+

@@ -1,56 +1,53 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/Book');
-const cloudinary = require('cloudinary').v2;
-const multer = require('multer');
-const authMiddleware = require('../middleware/auth');
-const isAdmin = require('../middleware/admin'); 
-const cloudinaryConfig = require('../config/cloudinaryConfig'); // Import Cloudinary config
 
-// Apply Cloudinary configuration
-cloudinaryConfig();
-
-// Set up multer storage for local files
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage });
-
-// Create a book with file upload
-router.post('/books', authMiddleware, isAdmin, upload.single('coverImage'), async (req, res) => {
-  const { title, author, category, pdfUrl } = req.body;
-  const coverImage = req.file;
-
+// Route for fetching all books or filtering by category
+router.get('/books', async (req, res) => {
   try {
-    const coverUploadResult = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: 'book_covers' },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-      coverImage.stream.pipe(uploadStream);
-    });
+    const { category, title, author } = req.query;
+    let query = {};
 
-    const book = new Book({
-      title,
-      author,
-      category,
-      pdfUrl,
-      coverImageUrl: coverUploadResult.secure_url,
-    });
+    // Build query based on provided parameters
+    if (category) {
+      query.category = category;
+    }
+    if (title) {
+      query.title = { $regex: title, $options: 'i' }; // Case-insensitive search
+    }
+    if (author) {
+      query.author = { $regex: author, $options: 'i' }; // Case-insensitive search
+    }
 
-    await book.save();
-    res.status(201).json(book);
+    const books = await Book.find(query);
+    res.json(books);
   } catch (err) {
     console.error(err);
-    res.status(400).json({ error: 'Unable to save book' });
+    res.status(500).json({ error: 'Failed to fetch books' });
   }
 });
 
-router.get('/books', async (req, res) => {
+// Route for fetching a specific book by title
+router.get('/books/title/:title', async (req, res) => {
   try {
-    const { category } = req.query;
-    const books = category ? await Book.find({ category }) : await Book.find();
+    const book = await Book.findOne({ title: { $regex: req.params.title, $options: 'i' } });
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    res.json(book);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch book' });
+  }
+});
+
+// Route for fetching a specific book by author
+router.get('/books/author/:author', async (req, res) => {
+  try {
+    const books = await Book.find({ author: { $regex: req.params.author, $options: 'i' } });
+    if (books.length === 0) {
+      return res.status(404).json({ error: 'No books found for this author' });
+    }
     res.json(books);
   } catch (err) {
     console.error(err);

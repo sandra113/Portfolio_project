@@ -7,14 +7,14 @@ const BookSchema = new mongoose.Schema({
   },
   author: {
     type: String,
+    required: true, 
   },
-  pdfUrl: {
+  coverImageUrl: { 
     type: String,
-    required: true,
   },
   category: {
     type: String,
-    required: true,
+    required: true, 
   },
   createdAt: {
     type: Date,

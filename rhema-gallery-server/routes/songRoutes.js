@@ -2,44 +2,50 @@ const express = require('express');
 const router = express.Router();
 const Song = require('../models/Song');
 const multer = require('multer');
-const authMiddleware = require('../middleware/auth');
-const isAdmin = require('../middleware/admin');
 const cloudinary = require('cloudinary').v2;
-const cloudinaryConfig = require('../config/cloudinaryConfig'); // Import Cloudinary config
 
-// Apply Cloudinary configuration
-cloudinaryConfig();
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// Configure multer for file uploads
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Create a song
-router.post('/songs', authMiddleware, isAdmin, upload.single('audioFile'), async (req, res) => {
-  const { title, artist, youtubeUrl, category } = req.body;
+// Function to upload audio files to Cloudinary
+const uploadToCloudinary = (fileStream) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { resource_type: 'audio', folder: 'songs' },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+    fileStream.pipe(uploadStream); // Pipe the stream to Cloudinary
+  });
+};
+
+// Route to upload a song
+router.post('/songs', upload.single('audioFile'), async (req, res) => {
+  const { title, artist, category, youtubeUrl } = req.body; // Get details from the request body
 
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No audio file uploaded' });
-    }
+    let audioUrl = youtubeUrl;
 
-    const audioUploadResult = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { resource_type: 'audio', folder: 'songs' },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-      req.file.stream.pipe(uploadStream);
-    });
+    // Upload audio file if provided
+    if (req.file) {
+      const audioUploadResult = await uploadToCloudinary(req.file.stream);
+      audioUrl = audioUploadResult.secure_url; // Set the Cloudinary URL as the audio URL
+    }
 
     const song = new Song({
       title,
       artist,
-      youtubeUrl,
+      youtubeUrl: audioUrl,
       category,
-      audioUrl: audioUploadResult.secure_url,
     });
 
     await song.save();
@@ -50,6 +56,7 @@ router.post('/songs', authMiddleware, isAdmin, upload.single('audioFile'), async
   }
 });
 
+// Route to get songs
 router.get('/songs', async (req, res) => {
   try {
     const { category } = req.query;

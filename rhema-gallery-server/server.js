@@ -9,18 +9,21 @@ const sermonRoutes = require('./routes/sermonRoutes');
 const songRoutes = require('./routes/songRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
+// Cloudinary configuration
+const { cloudinary } = require('./config/cloudinaryConfig'); // Import Cloudinary instance
+
 const app = express();
 const http = require('http'); // To integrate Socket.io with the server
 const server = http.createServer(app); // Create the HTTP server
 const { Server } = require('socket.io'); // Importing the Socket.io server
 const io = new Server(server); // Initialize Socket.io with the HTTP server
-const port = 5000;
+const port = process.env.PORT || 5000; // Use PORT from environment variables or default to 5000
 
 // Middleware to parse JSON requests
 app.use(express.json());
-app.use('/api/auth', authRoutes);
 
 // Use the routes
+app.use('/api/auth', authRoutes);
 app.use('/api', sermonRoutes);
 app.use('/api', songRoutes);
 app.use('/api', bookRoutes);
@@ -29,7 +32,7 @@ app.use('/api', bookRoutes);
 app.get('/api/sermons/videos', async (req, res) => {
   try {
     const youtubeApiKey = process.env.YOUTUBE_API_KEY; // Use environment variable for security
-    const response = await axios.get(`https://www.googleapis.com/youtube/v3/search`, {
+    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
         maxResults: 10,
@@ -45,7 +48,7 @@ app.get('/api/sermons/videos', async (req, res) => {
 });
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {})
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
