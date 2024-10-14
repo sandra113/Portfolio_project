@@ -15,21 +15,25 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Function to upload audio files to Cloudinary
-const uploadToCloudinary = (fileStream) => {
+const uploadToCloudinary = (fileBuffer, fileName) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { resource_type: 'audio', folder: 'songs' },
+      { resource_type: 'audio', folder: 'songs',  public_id: fileName },
       (error, result) => {
-        if (error) return reject(error);
+        if (error) {
+          console.error('Cloudinary Upload Error:', error);
+          return reject(error);
+        }
         resolve(result);
       }
     );
-    fileStream.pipe(uploadStream); // Pipe the stream to Cloudinary
-  });
-};
+    uploadStream.end(fileBuffer); // End the stream with the fileBuffer content
+    });
+  };
 
 // Route to upload a song
-router.post('/songs', upload.single('audioFile'), async (req, res) => {
+router.post('/songs', upload.single('file'), async (req, res) => {
+  console.log('Received a request to upload a song'); // Debug log
   const { title, artist, category, youtubeUrl } = req.body; // Get details from the request body
 
   try {

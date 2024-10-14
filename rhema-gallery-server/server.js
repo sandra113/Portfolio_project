@@ -21,6 +21,7 @@ const port = process.env.PORT || 5000; // Use PORT from environment variables or
 
 // Middleware to parse JSON requests
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Use the routes
 app.use('/api/auth', authRoutes);

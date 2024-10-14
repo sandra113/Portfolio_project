@@ -15,7 +15,7 @@ cloudinary.config({
 });
 
 // Route to upload a sermon
-router.post('/sermons', upload.single('video'), async (req, res) => {
+router.post('/api/sermons', upload.single('video'), async (req, res) => {
   const { title, description, youtubeUrl, category, speaker } = req.body; // Include speaker field
 
   try {
@@ -51,7 +51,7 @@ router.post('/sermons', upload.single('video'), async (req, res) => {
 });
 
 // Route to get sermons
-router.get('/sermons', async (req, res) => {
+router.get('/api/sermons', async (req, res) => {
   try {
     const { category } = req.query;
     const sermons = category ? await Sermon.find({ category }) : await Sermon.find();
