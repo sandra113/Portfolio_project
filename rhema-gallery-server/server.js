@@ -1,12 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
-const axios = require('axios');
 require('dotenv').config(); // Ensure you load your environment variables first
 
 // Import route files
 const authRoutes = require('./routes/auth');
-const sermonRoutes = require('./routes/sermonRoutes');
-const songRoutes = require('./routes/songRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
 // Cloudinary configuration
@@ -20,33 +18,13 @@ const io = new Server(server); // Initialize Socket.io with the HTTP server
 const port = process.env.PORT || 5000; // Use PORT from environment variables or default to 5000
 
 // Middleware to parse JSON requests
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use the routes
 app.use('/api/auth', authRoutes);
-app.use('/api', sermonRoutes);
-app.use('/api', songRoutes);
 app.use('/api', bookRoutes);
-
-// Endpoint to fetch sermon videos from YouTube
-app.get('/api/sermons/videos', async (req, res) => {
-  try {
-    const youtubeApiKey = process.env.YOUTUBE_API_KEY; // Use environment variable for security
-    const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-      params: {
-        part: 'snippet',
-        maxResults: 10,
-        q: 'sermon',
-        key: youtubeApiKey,
-      },
-    });
-    res.json(response.data.items);
-  } catch (error) {
-    console.error('Error fetching videos from YouTube:', error);
-    res.status(500).json({ error: 'Failed to fetch videos' });
-  }
-});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)

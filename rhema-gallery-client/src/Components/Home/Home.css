@@ -1,0 +1,21 @@
+.home-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns to the left */
+    align-items: center; /* Aligns to the bottom */
+    height: 50vh; 
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+}
+
+h1 {
+    top: 50px;
+    font-size: 2rem;
+    color: white; 
+    text-align: left; 
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: auto;
+    max-width: 800px;
+    z-index: 2;
+}

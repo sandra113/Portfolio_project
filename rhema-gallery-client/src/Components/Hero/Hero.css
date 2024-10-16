@@ -1,0 +1,25 @@
+.hero{
+    margin: 0px 120px;
+    margin-top: 270px;
+    position: relative;
+}
+
+.hero-play{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    bottom: 10px;
+    right: 20px;
+
+}
+
+.hero-play p{
+    color: #fff;
+    font-size: 19px;
+}
+
+.hero-play img{
+    width: 50px; 
+    height: auto;
+}

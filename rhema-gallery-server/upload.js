@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/Book');
-const Sermon = require('../models/Sermon');
-const Song = require('../models/Song');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
@@ -13,6 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Set up multer for file uploads
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -32,19 +31,17 @@ const uploadToCloudinary = (filePath, folder) => {
 
 // Command-line arguments setup
 const argv = require('yargs')
-  .option('type', { alias: 't', description: 'Type of content to upload (book, sermon, song)', type: 'string', demandOption: true })
-  .option('title', { alias: 'ttl', description: 'Title of the content', type: 'string', demandOption: true })
-  .option('author', { alias: 'a', description: 'Author of the book (for book uploads)', type: 'string' })
-  .option('category', { alias: 'c', description: 'Category of the content', type: 'string', demandOption: true })
-  .option('speaker', { alias: 's', description: 'Speaker for the sermon (for sermon uploads)', type: 'string' })
-  .option('artist', { alias: 'r', description: 'Artist for the song (for song uploads)', type: 'string' })
+  .option('title', { alias: 'ttl', description: 'Title of the book', type: 'string', demandOption: true })
+  .option('author', { alias: 'a', description: 'Author of the book', type: 'string', demandOption: true })
+  .option('category', { alias: 'c', description: 'Category of the book', type: 'string', demandOption: true })
   .option('file', { alias: 'f', description: 'Path to the cover image', type: 'string', demandOption: true }) // Cover image
   .option('bookFile', { alias: 'b', description: 'Path to the PDF book file', type: 'string', demandOption: true }) // PDF book
   .help()
   .argv;
 
+// Handle book uploads
 router.post('/upload', upload.fields([{ name: 'file' }, { name: 'bookFile' }]), async (req, res) => {
-  const { type, title, author, category, speaker, artist } = argv;
+  const { title, author, category } = argv; // Only relevant fields for book uploads
   let coverImageUrl, bookFileUrl;
 
   try {
@@ -60,22 +57,17 @@ router.post('/upload', upload.fields([{ name: 'file' }, { name: 'bookFile' }]), 
       bookFileUrl = bookResult.secure_url; // Set the Cloudinary URL as the PDF book URL
     }
 
-    // Upload based on type
-    if (type === 'book') {
-      const book = new Book({ title, author, category, coverImageUrl, bookFileUrl });
-      await book.save();
-      return res.status(201).json(book);
-    } else if (type === 'sermon') {
-      const sermon = new Sermon({ title, category, speaker, youtubeUrl: bookFileUrl }); // Assuming the sermon video is the bookFileUrl
-      await sermon.save();
-      return res.status(201).json(sermon);
-    } else if (type === 'song') {
-      const song = new Song({ title, category, artist, youtubeUrl: bookFileUrl }); // Assuming the song video is the bookFileUrl
-      await song.save();
-      return res.status(201).json(song);
-    } else {
-      return res.status(400).json({ error: 'Invalid upload type specified.' });
-    }
+    // Create a new book entry
+    const book = new Book({
+      title,
+      author,
+      category,
+      coverImageUrl,
+      bookFileUrl
+    });
+
+    await book.save();
+    return res.status(201).json(book);
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: 'Unable to save upload' });
