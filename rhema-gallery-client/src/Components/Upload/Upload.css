@@ -1,0 +1,27 @@
+.Upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    flex-direction: column;
+    
+}
+
+.formStyle{
+    padding: 20px;
+    border: 1px solid black;
+    width: 25%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+.formStyle h4{
+    color: #fff;
+}
+
+.formStyle label{
+    color: #fff;
+}
+form-control{
+    border-color: black ;
+}

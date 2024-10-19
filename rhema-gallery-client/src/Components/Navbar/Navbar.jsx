@@ -8,12 +8,11 @@ const Navbar = () => {
             <div className="nav-logo">Rhema Gallery</div>
             <ul className="nav-menu">
                 <li><a href="/">Home</a></li>
-                <li><a href="/library">Library</a></li>
                 <li><a href="/about">About</a></li> 
+                <li><a href="/library">Library</a></li>
                 <li><a href="/chat">Chat</a></li>
-                <li><a href="/signup" className="button">SignUp</a></li>
                 <li><a href="/login" className="button">Login</a></li>
-                <li className='nav-contact'><Link to="/contact">Contact</Link></li>
+                <li><a href="/Upload">Upload</a></li>
             </ul>
         </div>
     );

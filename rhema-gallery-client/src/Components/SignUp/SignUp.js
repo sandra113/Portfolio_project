@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import './SignUp.css';
 
 const SignUp = () => {
@@ -13,11 +14,21 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can add the logic to send the data to your backend for processing
-    console.log('Form submitted:', formData);
+
+    try {
+      const result = await axios.post("http://localhost:5000/signUp", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error during sign-up:", error.response ? error.response.data : error.message);
+    }
   };
+
+
 
   return (
     <div className="sign-up">

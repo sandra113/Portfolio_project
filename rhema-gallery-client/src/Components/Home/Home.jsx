@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 30000); // 30 seconds
+    }, 15000); // 30 seconds
 
     return () => clearInterval(interval); // Cleanup on component unmount
   }, [texts.length]);

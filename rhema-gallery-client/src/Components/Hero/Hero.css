@@ -11,12 +11,8 @@
     gap: 10px;
     bottom: 10px;
     right: 20px;
+    z-index: 2;
 
-}
-
-.hero-play p{
-    color: #fff;
-    font-size: 19px;
 }
 
 .hero-play img{

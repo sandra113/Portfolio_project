@@ -1,118 +1,49 @@
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  
-  h1, h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .container {
-    width: 80%;
-    margin: 0 auto;
+.container {
+    margin: 20px;
     padding: 20px;
-    height: 100vh;
-    display: flex;
+    background-color:  rgba(0, 0, 0, 0.5);
+    color: #fff;
   }
   
-  .container input{
-    width: 70%;
-    margin: 0 auto;
-    padding: 0;
-    height: 6vh;
-    display: flex;
-  }
-  .container button{
-    height: 6vh;
-    width: 20%;
-    display: flex;
-  }
-  /* Header Styling */
-  h1 {
-    font-size: 36px;
+  .header {
+    text-align: center;
     margin-bottom: 20px;
-    color: #4A90E2;
+    color: #fff;
   }
   
-  /* Section Headings */
-  h2 {
-    font-size: 28px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #4A90E2;
-    padding-bottom: 10px;
-    color: #333;
+  .Booklist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
   }
   
-  /* Resource List Styles */
-  ul {
-    list-style-type: none;
-    padding: 0;
+  .output-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px; 
   }
   
-  ul li {
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    transition: transform 0.2s ease;
+  .inner-div {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 200px; 
+    text-align: center; 
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 5px; 
   }
   
-  ul li:hover {
-    transform: scale(1.02);
-    background-color: #f0f0f0;
+  .cover-image {
+    max-width: 100%; 
+    height: auto;
+    margin: 10px 0; 
   }
   
-  /* Button Styles */
-  button {
-    background-color: #4A90E2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  .btn {
+    margin-top: 10px; 
   }
   
-  button:hover {
-    background-color: #357ABD;
+  .hi{
+    color: #fff;
+    font-style: italic;
   }
-  
-  /* Category Styles */
-  .category-faith {
-    border-left: 5px solid #4CAF50;
-  }
-  
-  .category-prayer {
-    border-left: 5px solid #FF9800;
-  }
-  
-  .category-worship {
-    border-left: 5px solid #9C27B0;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .container {
-      width: 95%;
-    }
-  
-    h1 {
-      font-size: 28px;
-    }
-  
-    h2 {
-      font-size: 22px;
-    }
-  
-    ul li {
-      padding: 10px;
-    }
-  }
-  
