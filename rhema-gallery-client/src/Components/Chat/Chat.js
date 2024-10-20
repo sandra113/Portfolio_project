@@ -32,8 +32,8 @@ const Chat = () => {
   // Handle sending a message
   const sendMessage = () => {
     if (socket && message) {
-      socket.emit('sendMessage', { room: 'General', message }); // Use the single room name
-      setMessages((prevMessages) => [...prevMessages, message]); // Add message to local state
+      socket.emit('sendMessage', { room: 'General', message }); 
+      setMessages((prevMessages) => [...prevMessages, message]); 
       setMessage(''); // Clear the message input
     }
   };
