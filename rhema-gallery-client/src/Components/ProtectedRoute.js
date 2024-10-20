@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return children; // If token is found, render the children components
+  return children; 
 };
 
 export default ProtectedRoute;

@@ -1,21 +1,25 @@
 .home-container {
     display: flex;
-    justify-content: flex-start; 
+    justify-content: center; 
     align-items: center; 
     height: 50vh; 
     padding: 20px;
-    font-family: 'Arial', sans-serif;
-    position: relative;
+    background-color:   rgba(0, 0, 0, 0.3);;
+    top: 30%;
+    position: absolute;
+    border-radius: 5%;
+    left: 20%;
 }
 
 .home-container h1{
-    top: 50px;
     font-size: 2rem;
     color: white; 
-    text-align: left; 
+    text-align: center; 
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: auto;
     max-width: 800px;
     z-index: 2;
+    font-family: 'Great Vibes', cursive; 
+    font-style: italic;
 }

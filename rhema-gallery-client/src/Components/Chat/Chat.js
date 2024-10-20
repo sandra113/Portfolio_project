@@ -40,7 +40,7 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <h2>Chat Room: General</h2> {/* Static room name since there's only one room */}
+      <h2>Chat Room</h2>
 
       <div className="chat-box">
         {messages.map((msg, index) => (
