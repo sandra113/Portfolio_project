@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setHeroCount((prevCount) => (prevCount + 1) % 3); 
-    }, 15000); 
+    }, 10000); 
 
     return () => clearInterval(interval); // Cleanup on component unmount
   },);

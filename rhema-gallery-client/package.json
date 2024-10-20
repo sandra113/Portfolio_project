@@ -21,7 +21,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:backend": "cd ../rhema-gallery-server && node server.js",
-    "dev": "concurrently \"npm run start\" \"npm run start:backend\""
+    "dev": "concurrently \"npm run start\" \"npm run start:backend\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
