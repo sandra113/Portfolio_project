@@ -42,3 +42,10 @@
 .nav-menu a:active{
     color: #0056b3;
 }
+.nav-menu button{
+    background-color: rgba(255, 253, 208, 0.5);;
+    color: #fff;
+    font-weight: 600;
+    padding-top: 0;
+    border-radius: 10%;
+}

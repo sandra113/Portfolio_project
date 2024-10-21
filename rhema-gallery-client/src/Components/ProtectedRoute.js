@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token'); // Check for the presence of a token
+  const token = sessionStorage.getItem('token'); // Check for the presence of a token
 
   // If token is not found, redirect to the login page
   if (!token) {

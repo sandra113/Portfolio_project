@@ -1,6 +1,8 @@
 .chat-container{
     color: #fff;
     background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    position: relative;
 }
 
 .chat-container h2{
@@ -12,13 +14,16 @@
 .chat-box{
     height: 50vh;
     background-color: rgba(255, 253, 208, 0.5);
-    justify-self: center;
     width: 80%;
     color: black;
     font-weight: bold;
+    position: relative;
+    left: 150px;
 }
 
 .chat-controls{
     justify-self: center;
     width: 80%;
+    position: relative;
+    left: 150px;
 }

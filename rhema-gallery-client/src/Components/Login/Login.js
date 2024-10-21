@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
-const Login = () => {
+const Login = ({ setAuth }) => {  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Loading state
-  const navigate = useNavigate(); // useNavigate hook to redirect after login
+  const [setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +18,11 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/login', { email, password });
       console.log(response.data);
 
-      // Store the token and user info in localStorage (or use cookies)
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('email', email);
+      const { token } = response.data;
+      sessionStorage.setItem('token', token);
+      setAuth(true); 
 
-      // Redirect the user to a different page after successful login
+      // Redirect the user after successful login
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
@@ -31,14 +31,14 @@ const Login = () => {
       setLoading(false);
     }
   };
-    
+
   return (
     <div className="login">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="email"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -50,8 +50,8 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" disabled={loading}> {/* Disable button when loading */}
-          {loading ? 'Logging in...' : 'Log In'} {/* Show loading text */}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Log In'}
         </button>
       </form>
       <p>
