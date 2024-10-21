@@ -3,16 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
-const Login = ({ setAuth }) => {  
+const Login = ({ setAuth, setError }) => { 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [setError] = useState('');
+  const [error, setErrorState] = useState(''); 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrorState(''); // Clear previous errors
 
     try {
       const response = await axios.post('http://localhost:5000/login', { email, password });
@@ -26,7 +27,7 @@ const Login = ({ setAuth }) => {
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
-      setError('Invalid email or password');
+      setErrorState('Invalid email or password'); // Use setErrorState to update the error
     } finally {
       setLoading(false);
     }
@@ -35,6 +36,7 @@ const Login = ({ setAuth }) => {
   return (
     <div className="login">
       <h2>Login</h2>
+      {error && <div className="error">{error}</div>} {/* Display error message */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
